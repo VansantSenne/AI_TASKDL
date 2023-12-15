@@ -91,24 +91,17 @@ if train_button:
     model_new, training_history = create_and_train_model(num_epochs)
     st.text("Training completed!")
 
-    # Plot training history
-    st.subheader("Training History")
-    
-    # Plot training loss
-    st.line_chart(training_history.history['loss'], use_container_width=True)
-    st.write("Training Loss")
+  if train_button:
+    st.text(f"Training the model for {num_epochs} epochs. This might take some time...")
+    model_new, training_history = create_and_train_model(num_epochs)
+    st.text("Training completed!")
 
-    # Plot validation loss
-    st.line_chart(training_history.history['val_loss'], use_container_width=True)
-    st.write("Validation Loss")
-
-    # Plot training accuracy
-    st.line_chart(training_history.history['accuracy'], use_container_width=True)
-    st.write("Training Accuracy")
-
-    # Plot validation accuracy
-    st.line_chart(training_history.history['val_accuracy'], use_container_width=True)
-    st.write("Validation Accuracy")
+    # Plot training and validation loss
+    st.subheader("Training and Validation Loss")
+    loss_chart = st.line_chart({
+        'Training Loss': training_history.history['loss'],
+        'Validation Loss': training_history.history['val_loss']
+    }, use_container_width=True)
 
 uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 

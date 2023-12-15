@@ -96,26 +96,19 @@ if uploaded_file is not None:
     img_array = np.expand_dims(img_array, axis=0)
     img_array /= 255.0
 
-    # Make predictions
-    predictions = model_new.predict(img_array)
-    predicted_class = np.argmax(predictions[0])
+    # Check if model_new is not None before making predictions
+    if model_new is not None:
+        # Make predictions
+        predictions = model_new.predict(img_array)
+        predicted_class = np.argmax(predictions[0])
 
-    st.write(f"Prediction: Class {predicted_class}")
+        st.write(f"Prediction: Class {predicted_class}")
 
-    # Display the class probabilities
-    st.write("Class Probabilities:")
-    for i in range(NUM_CLASSES):
-        st.write(f"Class {i}: {predictions[0][i]:.4f}")
+        # Display the class probabilities
+        st.write("Class Probabilities:")
+        for i in range(NUM_CLASSES):
+            st.write(f"Class {i}: {predictions[0][i]:.4f}")
+    else:
+        st.text("Please train the model first.")
 
 # Add other Streamlit components or features as needed...
-
-# Check if model_new is defined before accessing its properties
-if model_new is not None:
-    # Add a sidebar with model summary
-    st.sidebar.header("Model Summary")
-    with st.sidebar.expander("Click to show model summary"):
-        model_new.summary()
-
-# Add additional features or information as needed...
-
-# Continue with the rest of your Streamlit code...

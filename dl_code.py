@@ -11,8 +11,12 @@ IMG_SIZE = 64
 HEIGTH_FACTOR = 0.2
 WIDTH_FACTOR = 0.2
 
-# Function to create the model
-def create_model():
+# Function to create and train the model
+def create_and_train_model():
+    # Load or create your dataset
+    # ...
+
+    # Define and compile the model
     model = tf.keras.Sequential([
         layers.Resizing(IMG_SIZE, IMG_SIZE),
         layers.Rescaling(1./255),
@@ -33,13 +37,49 @@ def create_model():
         layers.Dense(NUM_CLASSES, activation="softmax")
     ])
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-    return model
+
+    # Train the model on your dataset
+    batch_size = 32
+    image_size = (64, 64)
+    validation_split = 0.2
+
+    # Assuming you have a dataset directory structure similar to the one you used for training
+    training_set = image_dataset_from_directory(
+        directory='downloads/train',
+        labels='inferred',
+        subset='training',
+        image_size=image_size,
+        batch_size=batch_size,
+        validation_split=validation_split,
+        label_mode='categorical',
+        seed=42
+    )
+    
+    validation_set = image_dataset_from_directory(
+        directory='downloads/train',
+        labels='inferred',
+        subset='validation',
+        image_size=image_size,
+        batch_size=batch_size,
+        validation_split=validation_split,
+        label_mode='categorical',
+        seed=42
+    )
+
+    history = model.fit(training_set, validation_data=validation_set, epochs=20)
+
+    return model, history
 
 # Streamlit UI
 st.title("Image Classification with Streamlit")
 
-# Create the model
-model_new = create_model()
+# Add a training button
+train_button = st.button("Train Model")
+
+if train_button:
+    st.text("Training the model. This might take some time...")
+    model_new, training_history = create_and_train_model()
+    st.text("Training completed!")
 
 uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 

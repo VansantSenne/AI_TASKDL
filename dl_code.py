@@ -97,7 +97,7 @@ if uploaded_file is not None:
     # Preprocess the image
     img_array = image.img_to_array(image_display)
     img_array = np.expand_dims(img_array, axis=0)
-    img_array /= 255.0
+  
 
     # Check if model_new is not None before making predictions
     if model_new is not None:

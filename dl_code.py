@@ -110,9 +110,7 @@ if uploaded_file is not None:
 
         # Display the class probabilities
         st.write("Class Probabilities:")
-        for i in range(NUM_CLASSES):
-            st.write(f"{category_names[i]}: {predictions[0][i]:.4f}")
-    else:
-        st.text("Please train the model first.")
+        
+   
 
 # Add other Streamlit components or features as needed...

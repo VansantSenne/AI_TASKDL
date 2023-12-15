@@ -97,7 +97,7 @@ if uploaded_file is not None:
     # Display the uploaded image
     image_display = Image.open(uploaded_file)
     st.image(image_display, caption="Uploaded Image.", use_column_width=True)
-    st.writ("Train the model again to see the prediction")
+    st.write("Train the model again to see the prediction")
     # Preprocess the image
     img_array = np.array(image_display)
     img_array = np.expand_dims(img_array, axis=0)

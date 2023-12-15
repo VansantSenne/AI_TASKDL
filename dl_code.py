@@ -109,12 +109,7 @@ if uploaded_file is not None:
         predicted_class_index = np.argmax(predictions[0])
         predicted_class_name = category_names[predicted_class_index]
 
-        st.markdown(
-            f"<div style='background-color:#f4f4f4; padding:10px; text-align:center;'>"
-            f"<h3 style='margin:0; color:#555555;'>Prediction: {predicted_class_name}</h3>"
-            f"</div>", 
-            unsafe_allow_html=True
-        )
+        st.write(f"Prediction: {predicted_class_name}")
         
    
 

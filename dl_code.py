@@ -11,8 +11,15 @@ IMG_SIZE = 64
 HEIGTH_FACTOR = 0.2
 WIDTH_FACTOR = 0.2
 
-# Function to create the model
-def create_model():
+# Define category names
+category_names = ["Beaches", "Cities", "Forests", "Mountains", "Plain fields"]
+
+# Function to create and train the model
+def create_and_train_model():
+    # Load or create your dataset
+    # ...
+
+    # Define and compile the model
     model = tf.keras.Sequential([
         layers.Resizing(IMG_SIZE, IMG_SIZE),
         layers.Rescaling(1./255),
@@ -33,13 +40,54 @@ def create_model():
         layers.Dense(NUM_CLASSES, activation="softmax")
     ])
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-    return model
+
+    # Train the model on your dataset
+    batch_size = 32
+    image_size = (64, 64)
+    validation_split = 0.2
+
+    # Assuming you have a dataset directory structure similar to the one you used for training
+    training_set = image_dataset_from_directory(
+        directory='downloads/train',
+        labels='inferred',
+        subset='training',
+        image_size=image_size,
+        batch_size=batch_size,
+        validation_split=validation_split,
+        label_mode='categorical',
+        seed=42
+    )
+    
+    validation_set = image_dataset_from_directory(
+        directory='downloads/train',
+        labels='inferred',
+        subset='validation',
+        image_size=image_size,
+        batch_size=batch_size,
+        validation_split=validation_split,
+        label_mode='categorical',
+        seed=42
+    )
+
+    history = model.fit(training_set, validation_data=validation_set, epochs=20)
+
+    return model, history
 
 # Streamlit UI
 st.title("Image Classification with Streamlit")
+st.write("In this application you can train a model to classify images of landscapes with deeplearning.")
+st.write("Below you can see the distribution of images")
+image_display = Image.open("eda.jpg")
+# Initialize model_new outside the if block
+model_new = None
 
-# Create the model
-model_new = create_model()
+# Add a training button
+train_button = st.button("Train Model")
+
+if train_button:
+    st.text("Training the model. This might take some time...")
+    model_new, training_history = create_and_train_model()
+    st.text("Training completed!")
 
 uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 
@@ -51,26 +99,20 @@ if uploaded_file is not None:
     # Preprocess the image
     img_array = image.img_to_array(image_display)
     img_array = np.expand_dims(img_array, axis=0)
-    img_array /= 255.0
+  
 
-    # Make predictions
-    predictions = model_new.predict(img_array)
-    predicted_class = np.argmax(predictions[0])
+    # Check if model_new is not None before making predictions
+    if model_new is not None:
+        # Make predictions
+        predictions = model_new.predict(img_array)
+        predicted_class_index = np.argmax(predictions[0])
+        predicted_class_name = category_names[predicted_class_index]
 
-    st.write(f"Prediction: Class {predicted_class}")
+        st.write(f"Prediction: {predicted_class_name}")
 
-    # Display the class probabilities
-    st.write("Class Probabilities:")
-    for i in range(NUM_CLASSES):
-        st.write(f"Class {i}: {predictions[0][i]:.4f}")
+        # Display the class probabilities
+        st.write("Class Probabilities:")
+        
+   
 
 # Add other Streamlit components or features as needed...
-
-# Add a sidebar with model summary
-st.sidebar.header("Model Summary")
-with st.sidebar.beta_expander("Click to show model summary"):
-    model_new.summary()
-
-# Add additional features or information as needed...
-
-# Continue with the rest of your Streamlit code...

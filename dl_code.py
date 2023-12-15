@@ -104,16 +104,13 @@ if uploaded_file is not None:
   
 
     # Check if model_new is not None before making predictions
-    if model_new is not None:
+ if model_new is not None:
         # Make predictions
         predictions = model_new.predict(img_array)
         predicted_class_index = np.argmax(predictions[0])
         predicted_class_name = category_names[predicted_class_index]
 
         st.write(f"Prediction: {predicted_class_name}")
-
-        # Display the class probabilities
-        st.write("Class Probabilities:")
         
    
 

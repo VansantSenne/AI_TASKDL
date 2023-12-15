@@ -70,7 +70,6 @@ def create_and_train_model():
 
     return model, history
 
-# Streamlit UI
 st.title("Image Classification with Streamlit")
 
 # Add a training button
@@ -110,7 +109,3 @@ if uploaded_file is not None:
 st.sidebar.header("Model Summary")
 with st.sidebar.beta_expander("Click to show model summary"):
     model_new.summary()
-
-# Add additional features or information as needed...
-
-# Continue with the rest of your Streamlit code...

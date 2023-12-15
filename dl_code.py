@@ -106,11 +106,4 @@ if uploaded_file is not None:
 
 # Add other Streamlit components or features as needed...
 
-# Add a sidebar with model summary
-st.sidebar.header("Model Summary")
-with st.sidebar.expander("Click to show model summary"):
-    model_new.summary()
 
-# Add additional features or information as needed...
-
-# Continue with the rest of your Streamlit code...

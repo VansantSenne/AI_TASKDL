@@ -86,10 +86,7 @@ num_epochs = st.slider("Selecteer het aantal epochs", min_value=1, max_value=50,
 
 train_button = st.button("Train Model")
 
-if train_button:
-    st.text(f"Training the model for {num_epochs} epochs. This might take some time...")
-    model_new, training_history = create_and_train_model(num_epochs)
-    st.text("Training completed!")
+
 
   if train_button:
     st.text(f"Training the model for {num_epochs} epochs. This might take some time...")

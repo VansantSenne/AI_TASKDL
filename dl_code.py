@@ -95,7 +95,7 @@ uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 
 if uploaded_file is not None:
     # Display the uploaded image
-    image_display = Image.open(BytesIO(uploaded_file.read()))
+    image_display = Image.open(uploaded)
     st.image(image_display, caption="Uploaded Image.", use_column_width=True)
 
     # Preprocess the image

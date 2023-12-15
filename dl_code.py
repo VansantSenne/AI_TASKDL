@@ -73,6 +73,7 @@ def create_and_train_model(epochs):
 
     return model, history
 
+# Streamlit UI
 st.title("Image Classification with Streamlit")
 st.write("In this application you can train a model to classify images of landscapes with deeplearning.")
 st.write("Below you can see the distribution of images used to train and test our model.")
@@ -98,14 +99,19 @@ if uploaded_file is not None:
     st.image(image_display, caption="Uploaded Image.", use_column_width=True)
 
     # Preprocess the image
-    img_array = np.array(image_display)
+    img_array = image.img_to_array(image_display)
     img_array = np.expand_dims(img_array, axis=0)
+  
 
     # Check if model_new is not None before making predictions
-    if model_new is not None:
+ if model_new is not None:
         # Make predictions
         predictions = model_new.predict(img_array)
         predicted_class_index = np.argmax(predictions[0])
         predicted_class_name = category_names[predicted_class_index]
 
         st.write(f"Prediction: {predicted_class_name}")
+        
+   
+
+# Add other Streamlit components or features as needed...

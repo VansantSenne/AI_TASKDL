@@ -11,6 +11,9 @@ IMG_SIZE = 64
 HEIGTH_FACTOR = 0.2
 WIDTH_FACTOR = 0.2
 
+# Define category names
+category_names = ["Beaches", "Cities", "Forests", "Mountains", "Plain fields"]
+
 # Function to create and train the model
 def create_and_train_model():
     # Load or create your dataset
@@ -100,14 +103,15 @@ if uploaded_file is not None:
     if model_new is not None:
         # Make predictions
         predictions = model_new.predict(img_array)
-        predicted_class = np.argmax(predictions[0])
+        predicted_class_index = np.argmax(predictions[0])
+        predicted_class_name = category_names[predicted_class_index]
 
-        st.write(f"Prediction: Class {predicted_class}")
+        st.write(f"Prediction: {predicted_class_name}")
 
         # Display the class probabilities
         st.write("Class Probabilities:")
         for i in range(NUM_CLASSES):
-            st.write(f"Class {i}: {predictions[0][i]:.4f}")
+            st.write(f"{category_names[i]}: {predictions[0][i]:.4f}")
     else:
         st.text("Please train the model first.")
 

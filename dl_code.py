@@ -73,6 +73,9 @@ def create_and_train_model():
 # Streamlit UI
 st.title("Image Classification with Streamlit")
 
+# Initialize model_new outside the if block
+model_new = None
+
 # Add a training button
 train_button = st.button("Train Model")
 
@@ -106,4 +109,13 @@ if uploaded_file is not None:
 
 # Add other Streamlit components or features as needed...
 
+# Check if model_new is defined before accessing its properties
+if model_new is not None:
+    # Add a sidebar with model summary
+    st.sidebar.header("Model Summary")
+    with st.sidebar.expander("Click to show model summary"):
+        model_new.summary()
 
+# Add additional features or information as needed...
+
+# Continue with the rest of your Streamlit code...

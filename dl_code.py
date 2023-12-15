@@ -99,7 +99,7 @@ if uploaded_file is not None:
     st.image(image_display, caption="Uploaded Image.", use_column_width=True)
 
     # Preprocess the image
-    img_array = image.img_to_array(image_display)
+    img_array = np.array(image_display)
     img_array = np.expand_dims(img_array, axis=0)
 
     # Check if model_new is not None before making predictions

@@ -88,7 +88,7 @@ train_button = st.button("Train Model")
 
 
 
-  if train_button:
+if train_button:
     st.text(f"Training the model for {num_epochs} epochs. This might take some time...")
     model_new, training_history = create_and_train_model(num_epochs)
     st.text("Training completed!")

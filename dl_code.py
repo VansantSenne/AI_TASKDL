@@ -15,7 +15,7 @@ WIDTH_FACTOR = 0.2
 category_names = ["Beaches", "Cities", "Forests", "Mountains", "Plain fields"]
 
 # Function to create and train the model
-def create_and_train_model():
+def create_and_train_model(epochs):
     # Load or create your dataset
     # ...
 
@@ -69,7 +69,7 @@ def create_and_train_model():
         seed=42
     )
 
-    history = model.fit(training_set, validation_data=validation_set, epochs=20)
+    history = model.fit(training_set, validation_data=validation_set, epochs=epochs)
 
     return model, history
 
@@ -82,12 +82,13 @@ st.image(image, caption="eda", use_column_width=True)
 # Initialize model_new outside the if block
 model_new = None
 
-# Add a training button
+num_epochs = st.slider("Selecteer het aantal epochs", min_value=1, max_value=50, value=20)
+
 train_button = st.button("Train Model")
 
 if train_button:
-    st.text("Training the model. This might take some time...")
-    model_new, training_history = create_and_train_model()
+    st.text(f"Training the model for {num_epochs} epochs. This might take some time...")
+    model_new, training_history = create_and_train_model(num_epochs)
     st.text("Training completed!")
 
 uploaded_file = st.file_uploader("Choose an image...", type="jpg")

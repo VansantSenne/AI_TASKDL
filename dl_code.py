@@ -71,11 +71,11 @@ def create_and_train_model(epochs):
 
     history = model.fit(training_set, validation_data=validation_set, epochs=epochs)
 
-    return model
+    return model, history
 
 # Streamlit UI
 st.title("Image Classification with Streamlit")
-st.write("In this application, you can train a model to classify images of landscapes with deep learning.")
+st.write("In this application you can train a model to classify images of landscapes with deeplearning.")
 st.write("Below you can see the distribution of images used to train and test our model.")
 image = Image.open("eda.JPG")
 st.image(image, caption="eda", use_column_width=True)
@@ -88,8 +88,27 @@ train_button = st.button("Train Model")
 
 if train_button:
     st.text(f"Training the model for {num_epochs} epochs. This might take some time...")
-    model_new = create_and_train_model(num_epochs)
+    model_new, training_history = create_and_train_model(num_epochs)
     st.text("Training completed!")
+
+    # Plot training history
+    st.subheader("Training History")
+    
+    # Plot training loss
+    st.line_chart(training_history.history['loss'], use_container_width=True)
+    st.write("Training Loss")
+
+    # Plot validation loss
+    st.line_chart(training_history.history['val_loss'], use_container_width=True)
+    st.write("Validation Loss")
+
+    # Plot training accuracy
+    st.line_chart(training_history.history['accuracy'], use_container_width=True)
+    st.write("Training Accuracy")
+
+    # Plot validation accuracy
+    st.line_chart(training_history.history['val_accuracy'], use_container_width=True)
+    st.write("Validation Accuracy")
 
 uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 
@@ -97,20 +116,16 @@ if uploaded_file is not None:
     # Display the uploaded image
     image_display = Image.open(uploaded_file)
     st.image(image_display, caption="Uploaded Image.", use_column_width=True)
-    st.write("Train the model again to see the prediction")
+
     # Preprocess the image
     img_array = np.array(image_display)
     img_array = np.expand_dims(img_array, axis=0)
 
     # Check if model_new is not None before making predictions
     if model_new is not None:
-        # Toon de trainings- en validatiegrafiek
-        st.line_chart(training_history.history['loss'])
-        st.line_chart(training_history.history['val_loss'])
-    
-        # Maak de rest van de voorspellingen
+        # Make predictions
         predictions = model_new.predict(img_array)
         predicted_class_index = np.argmax(predictions[0])
         predicted_class_name = category_names[predicted_class_index]
-    
+
         st.write(f"Prediction: {predicted_class_name}")

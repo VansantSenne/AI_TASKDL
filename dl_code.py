@@ -77,7 +77,7 @@ def create_and_train_model():
 st.title("Image Classification with Streamlit")
 st.write("In this application you can train a model to classify images of landscapes with deeplearning.")
 st.write("Below you can see the distribution of images")
-image_display = Image.open("eda.jpg")
+image_display = Image.open("eda.JPG")
 # Initialize model_new outside the if block
 model_new = None
 

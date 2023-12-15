@@ -101,16 +101,15 @@ if uploaded_file is not None:
     # Preprocess the image
     img_array = image.img_to_array(image_display)
     img_array = np.expand_dims(img_array, axis=0)
-  
 
     # Check if model_new is not None before making predictions
-     if model_new is not None:
-            # Make predictions
-            predictions = model_new.predict(img_array)
-            predicted_class_index = np.argmax(predictions[0])
-            predicted_class_name = category_names[predicted_class_index]
-    
-            st.write(f"Prediction: {predicted_class_name}")
+    if model_new is not None:
+        # Make predictions
+        predictions = model_new.predict(img_array)
+        predicted_class_index = np.argmax(predictions[0])
+        predicted_class_name = category_names[predicted_class_index]
+
+        st.write(f"Prediction: {predicted_class_name}")
         
    
 
